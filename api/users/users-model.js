@@ -5,6 +5,14 @@ function find() {
     You will need to join two tables.
     Resolves to an ARRAY with all users.
 
+    select
+      user_id,
+      username,
+      role_name
+    from users as u
+    left join roles as r
+      on r.role_id = u.role_id
+
     [
       {
         "user_id": 1,
@@ -18,12 +26,25 @@ function find() {
       }
     ]
    */
+  return db('users as u')
+    .leftJoin('roles as r', 'r.role_id', 'u.role_id')
+    .select('user_id', 'username', 'role_name')
 }
 
 function findBy(filter) {
   /**
     You will need to join two tables.
     Resolves to an ARRAY with all users that match the filter condition.
+
+    select
+      user_id,
+      username,
+      password,
+      role_name
+    from users as u
+    left join roles as r
+      on r.role_id = u.role_id
+    where u.user_id = 1;
 
     [
       {
@@ -34,6 +55,10 @@ function findBy(filter) {
       }
     ]
    */
+  return db('users as u')
+    .leftJoin('roles as r', 'r.role_id', 'u.role_id')
+    .select('user_id', 'username', 'password', 'role_name')
+    .where(filter)
 }
 
 function findById(user_id) {
@@ -47,6 +72,10 @@ function findById(user_id) {
       "role_name": "instructor"
     }
    */
+  return db('users as u')
+    .leftJoin('roles as r', 'r.role_id', 'u.role_id')
+    .select('user_id', 'username', 'role_name')
+    .where('user_id', user_id).first()
 }
 
 /**
